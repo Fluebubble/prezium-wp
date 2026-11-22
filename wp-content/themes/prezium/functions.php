@@ -7,6 +7,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once get_template_directory() . '/inc/product-fields.php';
+require_once get_template_directory() . '/inc/catalog-query.php';
+require_once get_template_directory() . '/inc/inquiries.php';
+
+/**
+ * Wer darf Dokumente herunterladen? Vorerst jeder angemeldete Nutzer.
+ * Mit der B2B-Freischaltung (nächster Schritt) wird das auf "freigeschaltet" eingeschränkt.
+ */
+function prezium_user_can_download() {
+	return is_user_logged_in();
+}
+
 add_action( 'after_setup_theme', function () {
 	load_theme_textdomain( 'prezium', get_template_directory() . '/languages' );
 	add_theme_support( 'title-tag' );
@@ -26,6 +38,13 @@ add_action( 'wp_enqueue_scripts', function () {
 		null
 	);
 	wp_enqueue_style( 'prezium-style', get_stylesheet_uri(), array( 'prezium-fonts' ), wp_get_theme()->get( 'Version' ) );
+
+	wp_enqueue_script( 'prezium-site', get_template_directory_uri() . '/assets/js/site.js', array(), wp_get_theme()->get( 'Version' ), true );
+	wp_localize_script( 'prezium-site', 'prezium', array(
+		'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+		'nonce'   => wp_create_nonce( 'prezium_inquiry' ),
+		'error'   => __( 'Senden fehlgeschlagen. Bitte versuchen Sie es erneut.', 'prezium' ),
+	) );
 } );
 
 /**

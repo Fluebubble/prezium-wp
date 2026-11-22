@@ -10,6 +10,11 @@
 	) );
 	?>
 </footer>
+<dialog id="inquiry-dialog" aria-labelledby="inquiry-title">
+	<h2 id="inquiry-title"><?php esc_html_e( 'Preis anfragen', 'prezium' ); ?></h2>
+	<p class="note" data-inquiry-ref></p>
+	<?php get_template_part( 'template-parts/inquiry-form', null, array( 'dialog' => true ) ); ?>
+</dialog>
 <?php wp_footer(); ?>
 </body>
 </html>
