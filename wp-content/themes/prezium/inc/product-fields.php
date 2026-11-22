@@ -43,6 +43,12 @@ function prezium_render_product_box( $post ) {
 			esc_attr( get_post_meta( $post->ID, $key, true ) )
 		);
 	}
+	printf(
+		'<tr><th>%1$s</th><td><label><input type="checkbox" name="_prez_is_test" value="1" %2$s> %3$s</label></td></tr>',
+		esc_html__( 'Test', 'prezium' ),
+		checked( (bool) get_post_meta( $post->ID, '_prez_is_test', true ), true, false ),
+		esc_html__( 'Testprodukt (zeigt die Marke „Test“ im Katalog)', 'prezium' )
+	);
 	echo '</table>';
 }
 
@@ -76,6 +82,7 @@ add_action( 'save_post_prezium_product', function ( $post_id ) {
 			update_post_meta( $post_id, $key, sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) );
 		}
 	}
+	update_post_meta( $post_id, '_prez_is_test', empty( $_POST['_prez_is_test'] ) ? 0 : 1 );
 	foreach ( array_keys( prezium_product_documents() ) as $key ) {
 		if ( isset( $_POST[ $key ] ) ) {
 			update_post_meta( $post_id, $key, esc_url_raw( wp_unslash( $_POST[ $key ] ) ) );
@@ -113,6 +120,9 @@ add_filter( 'manage_prezium_product_posts_columns', function ( $cols ) {
 add_action( 'manage_prezium_product_posts_custom_column', function ( $col, $post_id ) {
 	if ( 'prez_sku' === $col ) {
 		echo esc_html( get_post_meta( $post_id, '_prez_sku', true ) );
+		if ( get_post_meta( $post_id, '_prez_is_test', true ) ) {
+			echo ' <strong style="color:#b32d2e">[TEST]</strong>';
+		}
 	} elseif ( 'prez_bereich' === $col || 'prez_marke' === $col ) {
 		$tax   = 'prez_bereich' === $col ? 'prezium_bereich' : 'prezium_marke';
 		$terms = get_the_terms( $post_id, $tax );

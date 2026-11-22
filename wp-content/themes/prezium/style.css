@@ -96,3 +96,9 @@ dialog h2 { font-weight: 300; font-size: 1.8rem; margin-bottom: .4rem; }
 dialog .note { margin-bottom: 1rem; }
 
 @media (max-width: 760px) { .prod { grid-template-columns: 1fr; } }
+
+/* Testprodukte */
+.card a { position: relative; }
+.badge-test { position: absolute; top: .6rem; left: .6rem; z-index: 2; background: #b32d2e; color: #fff; font-size: .75rem; font-weight: 500; padding: .15rem .55rem; letter-spacing: .06em; }
+.badge-inline { position: static; display: inline-block; vertical-align: middle; font-size: .8rem; }
+.login-link { padding: .5rem 1.1rem; font-size: .9rem; }

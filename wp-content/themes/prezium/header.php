@@ -18,5 +18,8 @@
 		) );
 		?>
 	</nav>
+	<a class="btn ghost login-link" href="<?php echo esc_url( is_user_logged_in() ? wp_logout_url( home_url( '/' ) ) : wp_login_url( home_url( '/' ) ) ); ?>">
+		<?php echo is_user_logged_in() ? esc_html__( 'Abmelden', 'prezium' ) : esc_html__( 'Anmelden', 'prezium' ); ?>
+	</a>
 </header>
 <main>

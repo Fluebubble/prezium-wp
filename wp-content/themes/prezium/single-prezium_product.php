@@ -43,7 +43,7 @@ while ( have_posts() ) :
 				<?php if ( $marke && $ber ) : ?> · <?php endif; ?>
 				<?php if ( $ber ) : ?><a href="<?php echo esc_url( get_term_link( $ber ) ); ?>"><?php echo esc_html( $ber->name ); ?></a><?php endif; ?>
 			</p>
-			<h1 class="page-title"><?php the_title(); ?></h1>
+			<h1 class="page-title"><?php the_title(); ?><?php if ( prezium_is_test() ) : ?> <span class="badge-test badge-inline">TEST</span><?php endif; ?></h1>
 			<div class="prod-text"><?php the_content(); ?></div>
 
 			<?php if ( $specs ) : ?>

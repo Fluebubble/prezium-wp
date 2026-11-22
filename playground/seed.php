@@ -27,16 +27,44 @@ foreach ( $brands as $name => $desc ) {
 }
 
 $products = array(
-	array( 'Linea Zimmertür', 'Türen', 'Cocif Porte', 'CP-1040', 'Eiche lackiert', '2100 × 900 mm', 'Drehtür' ),
-	array( 'Cortina Schiebetür', 'Türen', 'Cocif Porte', 'CP-2210', 'Glas', '2400 × 1000 mm', 'Schiebetür' ),
-	array( 'Stahl-Brandschutztür T30', 'Türen', 'Novoferm', 'NF-3005', 'Stahl', '2000 × 1000 mm', 'Drehtür' ),
-	array( 'Fischgrät Eiche Natur', 'Parkett', 'Ali Parquet', 'AP-5120', 'Eiche', '14 mm Stärke', 'Geölt' ),
-	array( 'Landhausdiele Nussbaum', 'Parkett', 'Aeterno Parquet', 'AE-6044', 'Nussbaum', '20 mm Stärke', 'Lackiert' ),
-	array( 'Holz-Alu-Fenster Serie 90', 'Fenster', 'Ravaioli Falegnami', 'RF-7001', 'Holz-Alu', 'nach Maß', 'Dreh-Kipp' ),
-	array( 'Thermoesche Terrasse', 'Terrassendielen', 'Ali Parquet', 'AP-8030', 'Esche', '26 mm Stärke', 'Natur' ),
-	array( 'Outdoor Lounge Teak', 'Möbel', 'Aeterno Parquet', 'AE-9010', 'Teak', '220 × 90 cm', 'Natur' ),
-	array( 'Schienenleuchte Prisma', 'Licht', 'Ravaioli Falegnami', 'RF-1120', 'Aluminium', 'Ø 60 mm', 'Schwarz matt' ),
+	array( 'Linea Zimmertür', 'Türen', 'Cocif Porte', 'CP-1040', 'Eiche lackiert', '2100 × 900 mm', 'Drehtür', 'linea-zimmertuer' ),
+	array( 'Cortina Schiebetür', 'Türen', 'Cocif Porte', 'CP-2210', 'Glas', '2400 × 1000 mm', 'Schiebetür', 'cortina-schiebetuer' ),
+	array( 'Stahl-Brandschutztür T30', 'Türen', 'Novoferm', 'NF-3005', 'Stahl', '2000 × 1000 mm', 'Drehtür', 'stahl-brandschutztuer' ),
+	array( 'Fischgrät Eiche Natur', 'Parkett', 'Ali Parquet', 'AP-5120', 'Eiche', '14 mm Stärke', 'Geölt', 'fischgraet-eiche' ),
+	array( 'Landhausdiele Nussbaum', 'Parkett', 'Aeterno Parquet', 'AE-6044', 'Nussbaum', '20 mm Stärke', 'Lackiert', 'landhausdiele-nussbaum' ),
+	array( 'Holz-Alu-Fenster Serie 90', 'Fenster', 'Ravaioli Falegnami', 'RF-7001', 'Holz-Alu', 'nach Maß', 'Dreh-Kipp', 'holz-alu-fenster' ),
+	array( 'Thermoesche Terrasse', 'Terrassendielen', 'Ali Parquet', 'AP-8030', 'Esche', '26 mm Stärke', 'Natur', 'thermoesche-terrasse' ),
+	array( 'Outdoor Lounge Teak', 'Möbel', 'Aeterno Parquet', 'AE-9010', 'Teak', '220 × 90 cm', 'Natur', 'outdoor-lounge-teak' ),
+	array( 'Schienenleuchte Prisma', 'Licht', 'Ravaioli Falegnami', 'RF-1120', 'Aluminium', 'Ø 60 mm', 'Schwarz matt', 'schienenleuchte-prisma' ),
 );
+require_once ABSPATH . 'wp-admin/includes/image.php';
+require_once ABSPATH . 'wp-admin/includes/file.php';
+
+/** Kopiert eine Demo-Datei aus der Theme in die Mediathek und gibt die Attachment-ID zurück. */
+function prezium_demo_attach( $file, $parent = 0 ) {
+	$src = get_template_directory() . '/assets/demo/' . $file;
+	if ( ! file_exists( $src ) ) {
+		return 0;
+	}
+	$upload = wp_upload_dir();
+	$dest   = wp_unique_filename( $upload['path'], $file );
+	copy( $src, $upload['path'] . '/' . $dest );
+	$type = wp_check_filetype( $dest );
+	$id   = wp_insert_attachment( array(
+		'post_mime_type' => $type['type'],
+		'post_title'     => preg_replace( '/\.[^.]+$/', '', $file ),
+		'post_status'    => 'inherit',
+	), $upload['path'] . '/' . $dest, $parent );
+	if ( $id && ! is_wp_error( $id ) ) {
+		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['path'] . '/' . $dest ) );
+		return $id;
+	}
+	return 0;
+}
+
+$pdf_id  = prezium_demo_attach( 'test-dokument.pdf' );
+$pdf_url = $pdf_id ? wp_get_attachment_url( $pdf_id ) : '';
+
 foreach ( $products as $p ) {
 	$id = wp_insert_post( array(
 		'post_type'    => 'prezium_product',
@@ -51,6 +79,16 @@ foreach ( $products as $p ) {
 		update_post_meta( $id, '_prez_material', $p[4] );
 		update_post_meta( $id, '_prez_dimensions', $p[5] );
 		update_post_meta( $id, '_prez_finish', $p[6] );
+		update_post_meta( $id, '_prez_is_test', 1 );
+		if ( $pdf_url ) {
+			foreach ( array_keys( prezium_product_documents() ) as $doc_key ) {
+				update_post_meta( $id, $doc_key, $pdf_url );
+			}
+		}
+		$img = prezium_demo_attach( $p[7] . '.jpg', $id );
+		if ( $img ) {
+			set_post_thumbnail( $id, $img );
+		}
 	}
 }
 
@@ -82,6 +120,17 @@ foreach ( array( 'Impressum', 'Datenschutz' ) as $t ) {
 	wp_update_nav_menu_item( $foot, 0, array( 'menu-item-object-id' => $page_ids[ $t ], 'menu-item-object' => 'page', 'menu-item-type' => 'post_type', 'menu-item-status' => 'publish' ) );
 }
 set_theme_mod( 'nav_menu_locations', array( 'primary' => $main, 'footer' => $foot ) );
+
+// Demo-Nutzer zum Testen der Kundensicht (nur Testdaten, in der Vorschau wertlos).
+if ( ! username_exists( 'architekt' ) ) {
+	wp_insert_user( array(
+		'user_login'   => 'architekt',
+		'user_pass'    => 'Test-Architekt-1',
+		'user_email'   => 'architekt@example.com',
+		'display_name' => 'Test Architekt',
+		'role'         => 'subscriber',
+	) );
+}
 
 flush_rewrite_rules();
 update_option( 'prezium_demo_seeded', 1 );

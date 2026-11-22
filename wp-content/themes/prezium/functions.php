@@ -19,6 +19,11 @@ function prezium_user_can_download() {
 	return is_user_logged_in();
 }
 
+/** Testprodukte (Demo-Daten) tragen die Marke "Test". */
+function prezium_is_test( $post_id = null ) {
+	return (bool) get_post_meta( $post_id ? $post_id : get_the_ID(), '_prez_is_test', true );
+}
+
 add_action( 'after_setup_theme', function () {
 	load_theme_textdomain( 'prezium', get_template_directory() . '/languages' );
 	add_theme_support( 'title-tag' );
