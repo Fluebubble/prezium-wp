@@ -1,5 +1,8 @@
 # Prezium: локальный WordPress на Docker (Windows)
 
+**[▶ Открыть тестовый сайт онлайн](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/Fluebubble/prezium-wp/main/blueprint.json)**
+Сайт запускается прямо в браузере (WordPress Playground) с демо-товарами, вы сразу входите в админку (`/wp-admin`). Данные временные: после закрытия вкладки возвращаются к демо-состоянию. Обновляется само при каждом изменении ветки `main`.
+
 ## 1. Один раз: установка
 1. Установите **Docker Desktop** с docker.com. При установке оставьте включённым WSL 2. Перезагрузите компьютер, если попросит.
 2. Запустите Docker Desktop и дождитесь, пока в нём появится статус «Engine running».

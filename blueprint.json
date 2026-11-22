@@ -1,0 +1,38 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/",
+  "preferredVersions": {
+    "php": "8.3",
+    "wp": "latest"
+  },
+  "features": {
+    "networking": true
+  },
+  "login": true,
+  "steps": [
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "blogname": "Prezium (Testversion)",
+        "blogdescription": "Der Sieg liebt Präzision",
+        "permalink_structure": "/%postname%/"
+      }
+    },
+    {
+      "step": "installTheme",
+      "themeData": {
+        "resource": "git:directory",
+        "url": "https://github.com/Fluebubble/prezium-wp",
+        "ref": "main",
+        "path": "wp-content/themes/prezium"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php\n// Demo-Inhalte für die Playground-Vorschau. Nur Testdaten.\nrequire_once '/wordpress/wp-load.php';\n\nif ( get_option( 'prezium_demo_seeded' ) ) {\n\treturn;\n}\n\n// Bereiche werden beim Aktivieren der Theme angelegt; sicherheitshalber nochmals.\nforeach ( array( 'Türen', 'Parkett', 'Fenster', 'Terrassendielen', 'Möbel', 'Licht', 'Sonstiges' ) as $b ) {\n\tif ( ! term_exists( $b, 'prezium_bereich' ) ) {\n\t\twp_insert_term( $b, 'prezium_bereich' );\n\t}\n}\n\n$brands = array(\n\t'Cocif Porte'        => 'Italienische Manufaktur für Türen mit klarer Linie.',\n\t'Ali Parquet'        => 'Parkett und Terrassendielen aus ausgewähltem Massivholz.',\n\t'Ravaioli Falegnami' => 'Fenster und Schreinerarbeiten nach Maß.',\n\t'Aeterno Parquet'    => 'Parkettkollektionen und Außenmöbel in Edelholz.',\n\t'Novoferm'           => 'Brandschutz- und Funktionstüren in Serie und Sonderanfertigung.',\n);\nforeach ( $brands as $name => $desc ) {\n\tif ( ! term_exists( $name, 'prezium_marke' ) ) {\n\t\twp_insert_term( $name, 'prezium_marke', array( 'description' => $desc ) );\n\t}\n}\n\n$products = array(\n\tarray( 'Linea Zimmertür', 'Türen', 'Cocif Porte', 'CP-1040', 'Eiche lackiert', '2100 × 900 mm', 'Drehtür' ),\n\tarray( 'Cortina Schiebetür', 'Türen', 'Cocif Porte', 'CP-2210', 'Glas', '2400 × 1000 mm', 'Schiebetür' ),\n\tarray( 'Stahl-Brandschutztür T30', 'Türen', 'Novoferm', 'NF-3005', 'Stahl', '2000 × 1000 mm', 'Drehtür' ),\n\tarray( 'Fischgrät Eiche Natur', 'Parkett', 'Ali Parquet', 'AP-5120', 'Eiche', '14 mm Stärke', 'Geölt' ),\n\tarray( 'Landhausdiele Nussbaum', 'Parkett', 'Aeterno Parquet', 'AE-6044', 'Nussbaum', '20 mm Stärke', 'Lackiert' ),\n\tarray( 'Holz-Alu-Fenster Serie 90', 'Fenster', 'Ravaioli Falegnami', 'RF-7001', 'Holz-Alu', 'nach Maß', 'Dreh-Kipp' ),\n\tarray( 'Thermoesche Terrasse', 'Terrassendielen', 'Ali Parquet', 'AP-8030', 'Esche', '26 mm Stärke', 'Natur' ),\n\tarray( 'Outdoor Lounge Teak', 'Möbel', 'Aeterno Parquet', 'AE-9010', 'Teak', '220 × 90 cm', 'Natur' ),\n\tarray( 'Schienenleuchte Prisma', 'Licht', 'Ravaioli Falegnami', 'RF-1120', 'Aluminium', 'Ø 60 mm', 'Schwarz matt' ),\n);\nforeach ( $products as $p ) {\n\t$id = wp_insert_post( array(\n\t\t'post_type'    => 'prezium_product',\n\t\t'post_status'  => 'publish',\n\t\t'post_title'   => $p[0],\n\t\t'post_content' => 'Präzise gefertigt, in mehreren Oberflächen erhältlich. Dies ist ein Demo-Text.',\n\t) );\n\tif ( $id && ! is_wp_error( $id ) ) {\n\t\twp_set_object_terms( $id, $p[1], 'prezium_bereich' );\n\t\twp_set_object_terms( $id, $p[2], 'prezium_marke' );\n\t\tupdate_post_meta( $id, '_prez_sku', $p[3] );\n\t\tupdate_post_meta( $id, '_prez_material', $p[4] );\n\t\tupdate_post_meta( $id, '_prez_dimensions', $p[5] );\n\t\tupdate_post_meta( $id, '_prez_finish', $p[6] );\n\t}\n}\n\n$pages = array(\n\t'Kontakt'     => 'Prezium GmbH, Musterstraße 1, 51373 Leverkusen. (Demo-Adresse)',\n\t'Über uns'    => 'Prezium GmbH bringt europäische Manufakturen und anspruchsvolle Projekte zusammen.',\n\t'Impressum'   => 'Platzhalter. Rechtstexte werden vor dem Livegang von einer Fachkanzlei erstellt.',\n\t'Datenschutz' => 'Platzhalter. Rechtstexte werden vor dem Livegang von einer Fachkanzlei erstellt.',\n);\n$page_ids = array();\nforeach ( $pages as $title => $content ) {\n\t$page_ids[ $title ] = wp_insert_post( array(\n\t\t'post_type'    => 'page',\n\t\t'post_status'  => 'publish',\n\t\t'post_title'   => $title,\n\t\t'post_content' => $content,\n\t) );\n}\n\n// Menüs.\n$main = wp_create_nav_menu( 'Hauptmenü' );\nwp_update_nav_menu_item( $main, 0, array( 'menu-item-title' => 'Start', 'menu-item-url' => home_url( '/' ), 'menu-item-status' => 'publish', 'menu-item-type' => 'custom' ) );\nwp_update_nav_menu_item( $main, 0, array( 'menu-item-title' => 'Katalog', 'menu-item-url' => get_post_type_archive_link( 'prezium_product' ), 'menu-item-status' => 'publish', 'menu-item-type' => 'custom' ) );\nforeach ( array( 'Über uns', 'Kontakt' ) as $t ) {\n\twp_update_nav_menu_item( $main, 0, array( 'menu-item-object-id' => $page_ids[ $t ], 'menu-item-object' => 'page', 'menu-item-type' => 'post_type', 'menu-item-status' => 'publish' ) );\n}\n$foot = wp_create_nav_menu( 'Footer' );\nforeach ( array( 'Impressum', 'Datenschutz' ) as $t ) {\n\twp_update_nav_menu_item( $foot, 0, array( 'menu-item-object-id' => $page_ids[ $t ], 'menu-item-object' => 'page', 'menu-item-type' => 'post_type', 'menu-item-status' => 'publish' ) );\n}\nset_theme_mod( 'nav_menu_locations', array( 'primary' => $main, 'footer' => $foot ) );\n\nflush_rewrite_rules();\nupdate_option( 'prezium_demo_seeded', 1 );\n"
+    }
+  ]
+}
