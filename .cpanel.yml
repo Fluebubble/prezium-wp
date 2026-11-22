@@ -1,0 +1,7 @@
+---
+# Автодеплой темы на хостинг HOSTiQ (cPanel > Git Version Control > Deploy HEAD Commit)
+deployment:
+  tasks:
+    - export THEME=/home2/marinatr/prezium.marina-trots.com/wp-content/themes/prezium
+    - /bin/mkdir -p $THEME
+    - /bin/cp -R wp-content/themes/prezium/. $THEME/
