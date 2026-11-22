@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prezium GmbH – Prototyp</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ECEDEA;--surface:#E1E3DF;--ink:#23272B;--mute:#6B7075;--line:#C5C8C3;--accent:#8C6D49;--hero1:#B9B5AC;--hero2:#4A4F52;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1C1F22;--surface:#272B2F;--ink:#E7E8E4;--mute:#9A9FA3;--line:#3A3F44;--accent:#C09B6E;--hero1:#5C5B57;--hero2:#15181A}}
+:root[data-theme="dark"]{--bg:#1C1F22;--surface:#272B2F;--ink:#E7E8E4;--mute:#9A9FA3;--line:#3A3F44;--accent:#C09B6E;--hero1:#5C5B57;--hero2:#15181A}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--ink);font:300 17px/1.6 Jost,system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+a{color:inherit}button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:2rem;padding:1rem 4vw;flex-wrap:wrap}
+.logo{font-weight:500;font-size:1.25rem;letter-spacing:.18em;text-decoration:none;margin-right:auto}
+nav{display:flex;gap:1.6rem;flex-wrap:wrap}
+nav a{text-decoration:none;font-size:.95rem;color:var(--mute);padding:.2rem 0;border-bottom:1px solid transparent}
+nav a:hover,nav a.on{color:var(--ink);border-color:var(--accent)}
+.btn{background:var(--ink);color:var(--bg);border:0;padding:.8rem 1.6rem;cursor:pointer;font-size:.95rem;letter-spacing:.04em}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.view{display:none}.view.on{display:block}
+.hero{min-height:calc(100vh - 70px);display:flex;align-items:flex-end;padding:4vw;color:#F2F1EC;background:radial-gradient(ellipse at 75% 20%,rgba(255,244,225,.55),transparent 45%),linear-gradient(160deg,var(--hero1),var(--hero2))}
+.hero h1{font-weight:300;font-size:clamp(2.6rem,8vw,7rem);line-height:1.02;max-width:12ch}
+.hero p{max-width:34ch;margin:1.4rem 0 2rem;font-size:1.1rem}
+.hero .btn{background:#F2F1EC;color:#23272B}
+section{padding:6rem 4vw}
+h2{font-weight:300;font-size:clamp(1.9rem,4vw,3rem);line-height:1.1;margin-bottom:2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}
+.cat{aspect-ratio:3/4;display:flex;align-items:flex-end;padding:1.2rem;text-decoration:none;color:#F2F1EC;font-size:1.3rem;cursor:pointer;border:0;text-align:left}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2.5rem;border-top:1px solid var(--line);padding-top:2rem}
+.facts b{font-weight:500;display:block;margin-bottom:.4rem}.facts span{color:var(--mute)}
+.partners{display:flex;gap:2.5rem 4rem;flex-wrap:wrap;color:var(--mute);font-size:1.1rem;letter-spacing:.08em}
+.bar{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;align-items:end}
+.bar label{display:flex;flex-direction:column;font-size:.85rem;color:var(--mute);gap:.3rem}
+.bar input,.bar select,.f input,.f textarea{background:var(--surface);border:1px solid var(--line);padding:.7rem .9rem;min-width:180px}
+.tabs{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.tabs button{background:none;border:0;border-bottom:1px solid transparent;padding:.4rem 0;cursor:pointer;color:var(--mute)}
+.tabs button.on,.tabs button:hover{color:var(--ink);border-color:var(--accent)}
+.card{cursor:pointer;background:none;border:0;text-align:left;display:block;width:100%}
+.card .ph{aspect-ratio:4/5;margin-bottom:.8rem}
+.card small{color:var(--mute);display:block}
+.prod{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:4vw}
+.prod .ph{aspect-ratio:4/5}
+.thumbs{display:flex;gap:.6rem;margin-top:.6rem}.thumbs i{flex:1;aspect-ratio:1;opacity:.7}
+dl{display:grid;grid-template-columns:auto 1fr;gap:.4rem 2rem;margin:1rem 0 2rem}dt{color:var(--mute)}dd{margin:0}
+details{border-top:1px solid var(--line);padding:1rem 0}details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-weight:400}
+.dl{display:flex;gap:.6rem;flex-wrap:wrap;margin:1.5rem 0}
+.note{color:var(--mute);font-size:.9rem}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4vw}
+.f{display:grid;gap:.9rem}.f input,.f textarea{width:100%}
+dialog{border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:2.2rem;width:min(520px,92vw);margin:auto}
+dialog::backdrop{background:rgba(20,22,24,.6)}
+dialog h3{font-weight:300;font-size:1.8rem;margin-bottom:.4rem}
+footer{border-top:1px solid var(--line);padding:2rem 4vw;display:flex;gap:2rem;flex-wrap:wrap;color:var(--mute);font-size:.9rem}
+.proto{background:var(--accent);color:#fff;font-size:.8rem;text-align:center;padding:.3rem}
+@media(max-width:760px){.prod{grid-template-columns:1fr}section{padding:4rem 5vw}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="proto">Klickbarer Prototyp – Bilder sind Platzhalter, Anmeldung ist simuliert</div>
+<header>
+<a class="logo" href="#home">PREZIUM</a>
+<nav id="nav">
+<a href="#home" data-v="home">Start</a><a href="#catalog" data-v="catalog">Katalog</a><a href="#brands" data-v="brands">Marken</a><a href="#pro" data-v="pro">Architekten &amp; Designer</a><a href="#about" data-v="about">Über uns</a><a href="#contact" data-v="contact">Kontakt</a>
+</nav>
+<button class="btn ghost" id="loginBtn">Anmelden</button>
+</header>
+
+<main>
+<div class="view" id="v-home">
+<div class="hero"><div><h1>Der Sieg liebt Präzision</h1><p>Hochwertige Türen, Parkett, Fenster und Licht für Räume mit Haltung.</p><button class="btn" data-go="catalog">Katalog ansehen</button></div></div>
+<section><h2>Unsere Bereiche</h2><div class="grid" id="homeCats"></div></section>
+<section style="background:var(--surface)"><h2>Warum Prezium</h2><div class="facts"><div><b>Ausgewählte Manufakturen</b><span>Wir arbeiten nur mit Herstellern, deren Handwerk wir persönlich geprüft haben.</span></div><div><b>Technische Daten für Planer</b><span>Kataloge, Montageanleitungen und CAD/BIM-Modelle im geschützten Bereich.</span></div><div><b>Beratung im Showroom</b><span>Muster anfassen, Oberflächen vergleichen, Angebot anfragen.</span></div></div></section>
+<section><h2>Unsere Partner</h2><div class="partners"><span>COCIF PORTE</span><span>ALI PARQUET</span><span>RAVAIOLI FALEGNAMI</span><span>AETERNO PARQUET</span><span>NOVOFERM</span></div></section>
+<section style="background:var(--surface)"><div class="cols"><div><h2>Persönliche Beratung</h2><p>Hinterlassen Sie Ihre Daten, wir melden uns innerhalb eines Werktags.</p></div><form class="f" data-form="Allgemeine Anfrage"><input name="n" placeholder="Name" required><input name="e" type="email" placeholder="E-Mail" required><button class="btn">Rückruf anfordern</button></form></div></section>
+</div>
+
+<div class="view" id="v-catalog"><section>
+<h2 id="catTitle">Katalog</h2>
+<div class="tabs" id="catTabs"></div>
+<div class="bar">
+<label>Suche<input id="q" placeholder="Name, Marke oder Artikelnummer"></label>
+<label>Marke<select id="fBrand"></select></label>
+<label>Material<select id="fMat"></select></label>
+<button class="btn ghost" id="reset">Zurücksetzen</button>
+</div>
+<div class="grid" id="list"></div>
+<p class="note" id="empty" hidden>Keine Treffer. Ändern Sie Suche oder Filter.</p>
+</section></div>
+
+<div class="view" id="v-product"><section><p><a href="#catalog" class="note">Zurück zum Katalog</a></p><br><div class="prod" id="prod"></div></section></div>
+
+<div class="view" id="v-brands"><section><h2>Marken</h2><div class="grid" id="brandList"></div></section></div>
+
+<div class="view" id="v-pro"><section><div class="cols"><div><h2>Für Architekten und Designer</h2><p>Registrieren Sie sich kostenlos und laden Sie Kataloge, Preislisten, Montageanleitungen sowie CAD/BIM-Modelle und 3D-Texturen herunter. Ihr Konto wird nach kurzer Prüfung durch unser Team freigeschaltet.</p><br><button class="btn" id="proLogin">Konto anlegen</button></div>
+<div id="proState"></div></div></section></div>
+
+<div class="view" id="v-about"><section><h2>Präzision als Haltung</h2><div class="cols"><p>Prezium GmbH bringt europäische Manufakturen und anspruchsvolle Projekte zusammen. Unser Showroom zeigt Materialien in echten Raumsituationen.</p><p>Wir glauben, dass gute Architektur im Detail entschieden wird: in der Fuge, der Kante, der Oberfläche. Deshalb beraten wir technisch genau und ohne Umwege.</p></div></section></div>
+
+<div class="view" id="v-contact"><section><h2>Kontakt</h2><div class="cols"><div><p>Prezium GmbH<br>Musterstraße 1<br>51373 Leverkusen<br><br>Tel. +49 000 000000<br>info@prezium.example<br><br><span class="note">Karte: hier wird später die Showroom-Karte eingebunden.</span></p></div>
+<form class="f" data-form="Kontaktformular"><input name="n" placeholder="Name" required><input name="e" type="email" placeholder="E-Mail" required><input name="t" placeholder="Telefon"><textarea name="m" rows="4" placeholder="Nachricht"></textarea><button class="btn">Nachricht senden</button></form></div></section></div>
+</main>
+
+<footer><span>© Prezium GmbH</span><a href="#imp" data-legal="Impressum">Impressum</a><a href="#dat" data-legal="Datenschutz">Datenschutz</a><a href="#cook" data-legal="Cookies">Cookie-Einstellungen</a></footer>
+
+<dialog id="dlg"></dialog>
+
+<script>
+const CATS=["Türen","Parkett","Fenster","Terrassendielen","Möbel","Licht","Sonstiges"];
+const TONES=["#8B7A66","#6F7A78","#A39A8A","#5A6064","#9A8468","#767D73","#B0A89A","#645B52"];
+const P=[
+{id:1,c:"Türen",n:"Linea Zimmertür",b:"Cocif Porte",s:"CP-1040",m:"Eiche lackiert",d:"2100 × 900 mm",o:"Drehtür",t:0},
+{id:2,c:"Türen",n:"Cortina Schiebetür",b:"Cocif Porte",s:"CP-2210",m:"Glas",d:"2400 × 1000 mm",o:"Schiebetür",t:1},
+{id:3,c:"Türen",n:"Stahl-Brandschutztür T30",b:"Novoferm",s:"NF-3005",m:"Stahl",d:"2000 × 1000 mm",o:"Drehtür",t:3},
+{id:4,c:"Parkett",n:"Fischgrät Eiche Natur",b:"Ali Parquet",s:"AP-5120",m:"Eiche",d:"14 mm Stärke",o:"Geölt",t:4},
+{id:5,c:"Parkett",n:"Landhausdiele Nussbaum",b:"Aeterno Parquet",s:"AE-6044",m:"Nussbaum",d:"20 mm Stärke",o:"Lackiert",t:7},
+{id:6,c:"Fenster",n:"Holz-Alu-Fenster Serie 90",b:"Ravaioli Falegnami",s:"RF-7001",m:"Holz-Alu",d:"nach Maß",o:"Dreh-Kipp",t:2},
+{id:7,c:"Terrassendielen",n:"Thermoesche Terrasse",b:"Ali Parquet",s:"AP-8030",m:"Esche",d:"26 mm Stärke",o:"Natur",t:5},
+{id:8,c:"Möbel",n:"Outdoor Lounge Teak",b:"Aeterno Parquet",s:"AE-9010",m:"Teak",d:"220 × 90 cm",o:"Natur",t:6},
+{id:9,c:"Licht",n:"Schienenleuchte Prisma",b:"Ravaioli Falegnami",s:"RF-1120",m:"Aluminium",d:"Ø 60 mm",o:"Schwarz matt",t:3}];
+const BR={"Cocif Porte":"Italienische Manufaktur für Türen mit klarer Linie.","Ali Parquet":"Parkett und Terrassendielen aus ausgewähltem Massivholz.","Ravaioli Falegnami":"Fenster und Schreinerarbeiten nach Maß.","Aeterno Parquet":"Parkettkollektionen und Außenmöbel in Edelholz.","Novoferm":"Brandschutz- und Funktionstüren in Serie und Sonderanfertigung."};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const tone=i=>`linear-gradient(150deg,${TONES[i%8]},${TONES[(i+3)%8]})`;
+const st={cat:"Alle",user:false,pending:false};
+const dlg=$("#dlg");
+function show(v){$$(".view").forEach(e=>e.classList.toggle("on",e.id==="v-"+v));$$("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===v));scrollTo(0,0)}
+function route(){const h=location.hash.slice(1)||"home";show(["home","catalog","brands","pro","about","contact"].includes(h)?h:"home")}
+addEventListener("hashchange",route);
+$$("[data-go]").forEach(b=>b.onclick=()=>location.hash=b.dataset.go);
+$("#homeCats").innerHTML=CATS.map((c,i)=>`<button class="cat" style="background:${tone(i)}" data-c="${c}">${c}</button>`).join("");
+$$("[data-c]").forEach(b=>b.onclick=()=>{st.cat=b.dataset.c;location.hash="catalog";draw()});
+function draw(){
+ $("#catTitle").textContent=st.cat==="Alle"?"Katalog":st.cat;
+ $("#catTabs").innerHTML=["Alle",...CATS].map(c=>`<button class="${c===st.cat?"on":""}" data-t="${c}">${c}</button>`).join("");
+ $$("[data-t]").forEach(b=>b.onclick=()=>{st.cat=b.dataset.t;$("#fBrand").value="";$("#fMat").value="";draw()});
+ const base=P.filter(p=>st.cat==="Alle"||p.c===st.cat);
+ const fill=(el,k,l)=>{const cur=el.value;el.innerHTML=`<option value="">${l}</option>`+[...new Set(base.map(p=>p[k]))].map(v=>`<option>${v}</option>`).join("");el.value=[...el.options].some(o=>o.value===cur)?cur:""};
+ fill($("#fBrand"),"b","Alle Marken");fill($("#fMat"),"m","Alle Materialien");
+ const q=$("#q").value.toLowerCase(),fb=$("#fBrand").value,fm=$("#fMat").value;
+ const r=base.filter(p=>(!fb||p.b===fb)&&(!fm||p.m===fm)&&(!q||(p.n+p.b+p.s).toLowerCase().includes(q)));
+ $("#list").innerHTML=r.map(p=>`<button class="card" data-p="${p.id}"><div class="ph" style="background:${tone(p.t)}"></div>${p.n}<small>${p.b} · ${p.s}</small></button>`).join("");
+ $("#empty").hidden=r.length>0;
+ $$("[data-p]").forEach(b=>b.onclick=()=>prod(+b.dataset.p));
+}
+["#q","#fBrand","#fMat"].forEach(s=>$(s).addEventListener("input",draw));
+$("#reset").onclick=()=>{$("#q").value="";$("#fBrand").value="";$("#fMat").value="";draw()};
+function prod(id){
+ const p=P.find(x=>x.id===id);const lock=!st.user;
+ const dls=["Katalog (PDF)","Preisliste","Montageanleitung","CAD/BIM-Modell"].map(t=>`<button class="btn ghost" ${lock?"disabled":""}>${t}</button>`).join("");
+ $("#prod").innerHTML=`<div><div class="ph" style="background:${tone(p.t)}"></div><div class="thumbs">${[1,2,3,4].map(i=>`<i style="background:${tone(p.t+i)}"></i>`).join("")}</div></div>
+ <div><p class="note">${p.b} · ${p.c}</p><h2 style="margin-bottom:1rem">${p.n}</h2><p>Präzise gefertigt, in mehreren Oberflächen erhältlich. Beschreibungstext folgt aus dem Herstellerkatalog.</p>
+ <dl><dt>Artikel</dt><dd>${p.s}</dd><dt>Material</dt><dd>${p.m}</dd><dt>Maße</dt><dd>${p.d}</dd><dt>Ausführung</dt><dd>${p.o}</dd></dl>
+ <button class="btn" id="ask">Preis anfragen</button>
+ <div class="dl">${dls}</div>${lock?'<p class="note">Downloads sind für registrierte Architekten und Designer freigeschaltet. <a href="#" id="lg">Jetzt anmelden</a></p>':""}
+ <br><details open><summary>Technische Daten</summary><p class="note">Wärmedämmung, Schallschutz, Klassifizierung: Platzhalter.</p></details><details><summary>Oberflächen und Varianten</summary><p class="note">Farbmuster und Holzarten: Platzhalter.</p></details><details><summary>Montage und Pflege</summary><p class="note">Hinweise: Platzhalter.</p></details></div>`;
+ $("#ask").onclick=()=>ask(p.n+" ("+p.s+")");
+ const lg=$("#lg");if(lg)lg.onclick=e=>{e.preventDefault();login()};
+ show("product");scrollTo(0,0);
+}
+function ask(ref){
+ dlg.innerHTML=`<h3>Preis anfragen</h3><p class="note" style="margin-bottom:1rem">Produkt: ${ref}</p><form class="f" method="dialog" id="af"><input placeholder="Name" required><input type="email" placeholder="E-Mail" required><input placeholder="Telefon"><textarea rows="3" placeholder="Kommentar"></textarea><button class="btn">Anfrage senden</button></form>`;
+ dlg.showModal();
+ $("#af").onsubmit=e=>{e.preventDefault();done("Danke, Ihre Anfrage zu „"+ref+"“ ist eingegangen. Wir melden uns bald.")};
+}
+function done(t){dlg.innerHTML=`<h3>Gesendet</h3><p style="margin:1rem 0 1.5rem">${t}</p><button class="btn" onclick="dlg.close()">Schließen</button>`;if(!dlg.open)dlg.showModal()}
+$$("[data-form]").forEach(f=>f.onsubmit=e=>{e.preventDefault();f.reset();done("Danke, wir haben Ihre Nachricht erhalten.")});
+function login(){
+ dlg.innerHTML=`<h3>Zugang für Fachkunden</h3><p class="note" style="margin-bottom:1rem">Registrierung für Architekten, Designer und Bauunternehmen.</p><form class="f" id="rf"><input placeholder="Name" required><input placeholder="Unternehmen" required><input placeholder="Position / Beruf" required><input type="email" placeholder="E-Mail" required><input placeholder="Telefon"><button class="btn">Registrieren</button></form><br><p class="note">Demo: <a href="#" id="demo">Als freigeschalteter Nutzer fortfahren</a></p>`;
+ dlg.showModal();
+ $("#rf").onsubmit=e=>{e.preventDefault();st.pending=true;upd();done("Danke. Ihr Konto wird von unserem Team geprüft. Sie erhalten eine E-Mail nach der Freischaltung.")};
+ $("#demo").onclick=e=>{e.preventDefault();st.user=true;st.pending=false;upd();dlg.close()};
+}
+function upd(){
+ $("#loginBtn").textContent=st.user?"Abmelden":"Anmelden";
+ $("#proState").innerHTML=st.user?`<h2>Willkommen zurück</h2><p>Ihr Konto ist freigeschaltet. Öffnen Sie ein Produkt, um Downloads zu sehen.</p>`:st.pending?`<h2>In Prüfung</h2><p>Wir haben Ihre Registrierung erhalten.</p>`:"";
+ const o=$("#v-product.on");if(o){const t=$("#prod h2").textContent;const p=P.find(x=>x.n===t);if(p)prod(p.id)}
+}
+$("#loginBtn").onclick=()=>{if(st.user){st.user=false;upd()}else login()};
+$("#proLogin").onclick=login;
+$("#brandList").innerHTML=Object.entries(BR).map(([n,t],i)=>`<button class="card" data-b="${n}"><div class="ph" style="background:${tone(i+2)};aspect-ratio:3/2"></div>${n}<small>${t}</small></button>`).join("");
+$$("[data-b]").forEach(b=>b.onclick=()=>{st.cat="Alle";location.hash="catalog";$("#q").value="";draw();$("#fBrand").value=b.dataset.b;draw()});
+$$("[data-legal]").forEach(a=>a.onclick=e=>{e.preventDefault();dlg.innerHTML=`<h3>${a.dataset.legal}</h3><p style="margin:1rem 0 1.5rem">Platzhalter. Rechtstexte werden vor dem Livegang von einer Fachkanzlei erstellt.</p><button class="btn" onclick="dlg.close()">Schließen</button>`;dlg.showModal()});
+draw();route();upd();
+</script>
+</body>
+</html>
