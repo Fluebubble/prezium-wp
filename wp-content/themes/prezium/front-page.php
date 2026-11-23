@@ -18,7 +18,14 @@
 				?>
 				<div class="card">
 					<a href="<?php echo esc_url( get_term_link( $bereich ) ); ?>">
-						<div class="ph"></div>
+						<?php
+						$first = get_posts( array( 'post_type' => 'prezium_product', 'posts_per_page' => 1, 'fields' => 'ids', 'meta_key' => '_thumbnail_id', 'tax_query' => array( array( 'taxonomy' => 'prezium_bereich', 'terms' => $bereich->term_id ) ) ) ); // phpcs:ignore WordPress.DB.SlowDBQuery
+						if ( $first ) {
+							echo get_the_post_thumbnail( $first[0], 'large', array( 'class' => 'ph', 'loading' => 'lazy' ) ); // phpcs:ignore WordPress.Security.EscapeOutput
+						} else {
+							echo '<div class="ph"></div>';
+						}
+						?>
 						<?php echo esc_html( $bereich->name ); ?>
 					</a>
 				</div>
