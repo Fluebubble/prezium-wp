@@ -1,0 +1,127 @@
+/* Prezium: Startseite (nur auf der Front Page geladen) */
+
+body.home {
+	--bg: #14171A;
+	--surface: #1D2126;
+	--ink: #ECEAE4;
+	--mute: #A3A7AB;
+	--line: #33383D;
+	--accent: #C09B6E;
+}
+
+body.home .site-header { background: rgba(20, 23, 26, .92); backdrop-filter: blur(8px); }
+
+/* Typografie */
+.hx h1, .intro h2, .panel h3, .head h2, .precision h2, .precision h3, .cta-body h2 {
+	font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+	font-weight: 400;
+	letter-spacing: .02em;
+}
+.eyebrow { font-size: .78rem; letter-spacing: .32em; text-transform: uppercase; color: var(--accent); margin: 0 0 1.2rem; display: flex; align-items: center; gap: 1rem; }
+.eyebrow::before { content: ""; width: 2.6rem; height: 1px; background: var(--accent); }
+
+.btn.gold { background: var(--accent); color: #14171A; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; padding: 1rem 2rem; }
+.btn.gold:hover { filter: brightness(1.08); }
+.btn.outline { background: none; color: #F2F1EC; border: 1px solid rgba(242, 241, 236, .5); letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; padding: 1rem 2rem; }
+.btn.outline:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hero */
+.hx { position: relative; min-height: calc(100vh - 70px); min-height: calc(100svh - 70px); display: flex; align-items: flex-end; overflow: hidden; background: #0d0f11; }
+.hx-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: hx-zoom 28s ease-out both; }
+.hx-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 12, 14, .35) 0%, rgba(10, 12, 14, 0) 35%, rgba(10, 12, 14, .88) 100%), linear-gradient(90deg, rgba(10, 12, 14, .55) 0%, rgba(10, 12, 14, 0) 60%); }
+.hx-body { position: relative; padding: 0 4vw 7vh; max-width: 62rem; color: #F2F1EC; }
+.hx h1 { font-size: clamp(2.8rem, 8.2vw, 7rem); line-height: 1; margin: 0 0 1.4rem; max-width: 12ch; text-transform: none; }
+.hx-lead { font-size: 1.12rem; max-width: 36ch; color: rgba(242, 241, 236, .82); margin: 0 0 2.2rem; }
+.hx-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin: 0; }
+.hx-scroll { position: absolute; right: 4vw; bottom: 7vh; writing-mode: vertical-rl; font-size: .7rem; letter-spacing: .4em; text-transform: uppercase; color: rgba(242, 241, 236, .6); display: flex; align-items: center; gap: .8rem; }
+.hx-scroll::after { content: ""; width: 1px; height: 4rem; background: linear-gradient(var(--accent), transparent); }
+@keyframes hx-zoom { from { transform: scale(1.08); } to { transform: scale(1); } }
+
+/* Intro + Zahlen */
+.intro { padding: 9rem 4vw 7rem; max-width: 78rem; margin: 0 auto; }
+.intro h2 { font-size: clamp(2.2rem, 5.4vw, 4.4rem); line-height: 1.05; max-width: 16ch; margin: 0 0 2rem; }
+.intro-text { max-width: 52ch; color: var(--mute); font-size: 1.1rem; margin: 0; }
+.stats { display: flex; gap: 4rem; flex-wrap: wrap; margin: 4rem 0 0; padding-top: 2.5rem; border-top: 1px solid var(--line); }
+.stats dt { font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(2.6rem, 5vw, 4rem); color: var(--accent); line-height: 1; }
+.stats dd { margin: .5rem 0 0; font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; color: var(--mute); }
+
+/* Bereiche: großflächige Panels */
+.panels-wrap { padding: 0 4vw 6rem; }
+.panels { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.2rem; }
+.panel { position: relative; grid-column: span 6; min-height: 58vh; overflow: hidden; display: flex; align-items: flex-end; color: #F2F1EC; text-decoration: none; background: #0d0f11; }
+.panel.wide { grid-column: 1 / -1; min-height: 72vh; }
+.panel-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s cubic-bezier(.2, .6, .2, 1); }
+.panel:hover .panel-img { transform: scale(1.05); }
+.panel-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 12, 14, 0) 35%, rgba(10, 12, 14, .88) 100%); }
+.panel-body { position: relative; padding: 2.4rem; max-width: 34rem; }
+.panel-body small { display: block; font-size: .78rem; letter-spacing: .3em; color: var(--accent); margin-bottom: .6rem; }
+.panel h3 { font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; margin: 0 0 .8rem; }
+.panel-text { display: block; color: rgba(242, 241, 236, .8); margin-bottom: 1.2rem; }
+.more { font-size: .78rem; letter-spacing: .25em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid transparent; transition: border-color .3s; }
+.panel:hover .more { border-color: var(--accent); }
+
+/* Projekte */
+.projects { padding: 7rem 4vw; background: var(--surface); }
+.head { max-width: 40rem; margin-bottom: 3.5rem; }
+.head h2 { font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.05; margin: 0 0 1rem; }
+.head p:last-child { color: var(--mute); margin: 0; }
+.project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.6rem; }
+.project { position: relative; margin: 0; overflow: hidden; }
+.project-img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; transition: transform 1.4s cubic-bezier(.2, .6, .2, 1); }
+.project:hover .project-img { transform: scale(1.04); }
+.project figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 4rem 1.6rem 1.4rem; background: linear-gradient(transparent, rgba(10, 12, 14, .85)); display: flex; flex-direction: column; gap: .2rem; color: #F2F1EC; }
+.project figcaption strong { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 400; font-size: 1.6rem; letter-spacing: .02em; }
+.project figcaption span { font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+.badge-demo { position: absolute; top: 1rem; right: 1rem; background: rgba(10, 12, 14, .7); color: var(--accent); border: 1px solid var(--accent); font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; padding: .25rem .6rem; }
+
+/* Ausgewählte Produkte */
+.featured { max-width: 90rem; margin: 0 auto; }
+
+/* Präzision */
+.precision { position: relative; padding: 9rem 4vw; overflow: hidden; background: #0d0f11; }
+.precision-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.precision-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10, 12, 14, .88) 0%, rgba(10, 12, 14, .55) 60%, rgba(10, 12, 14, .35) 100%); }
+.precision-body { position: relative; max-width: 78rem; margin: 0 auto; color: #F2F1EC; }
+.precision h2 { font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.05; margin: 0 0 3.5rem; max-width: 14ch; }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.4rem; }
+.steps li { border-top: 1px solid rgba(192, 155, 110, .6); padding-top: 1.4rem; }
+.steps span { font-size: .78rem; letter-spacing: .3em; color: var(--accent); }
+.steps h3 { font-size: 1.9rem; margin: .5rem 0 .6rem; }
+.steps p { color: rgba(242, 241, 236, .78); margin: 0; }
+
+/* Marken */
+.brands { text-align: center; }
+.brands .eyebrow { justify-content: center; }
+.brands .eyebrow::before { display: none; }
+.brands .brand-strip a { font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(1.4rem, 3vw, 2.2rem); letter-spacing: .1em; }
+
+/* CTA Architekten */
+.cta-arch { position: relative; padding: 10rem 4vw; overflow: hidden; background: #0d0f11; }
+.cta-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cta-shade { position: absolute; inset: 0; background: rgba(10, 12, 14, .68); }
+.cta-body { position: relative; max-width: 40rem; margin: 0 auto; text-align: center; color: #F2F1EC; }
+.cta-body .eyebrow { justify-content: center; }
+.cta-body .eyebrow::before { display: none; }
+.cta-body h2 { font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.05; margin: 0 0 1.2rem; }
+.cta-body p { color: rgba(242, 241, 236, .82); margin: 0 0 2rem; }
+
+/* Weiches Einblenden */
+.js .rv { opacity: 0; transform: translateY(28px); transition: opacity 1s ease, transform 1s cubic-bezier(.2, .6, .2, 1); }
+.js .rv.in { opacity: 1; transform: none; }
+
+@media (max-width: 800px) {
+	.panel, .panel.wide { grid-column: 1 / -1; min-height: 52vh; }
+	.panel-body { padding: 1.6rem; }
+	.project-grid, .steps { grid-template-columns: 1fr; }
+	.intro { padding: 6rem 6vw 4rem; }
+	.stats { gap: 2.4rem; }
+	.precision, .cta-arch { padding: 6rem 6vw; }
+	.hx-scroll { display: none; }
+	.hx-body { padding-bottom: 5vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hx-img { animation: none; }
+	.js .rv { opacity: 1; transform: none; transition: none; }
+	.panel-img, .project-img { transition: none; }
+}
