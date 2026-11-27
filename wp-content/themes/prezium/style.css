@@ -1,7 +1,7 @@
 /*
 Theme Name: Prezium
 Description: Showroom-Katalog für Prezium GmbH
-Version: 0.6.0
+Version: 0.7.0
 Text Domain: prezium
 */
 
@@ -160,3 +160,20 @@ dialog .note { margin-bottom: 1rem; }
 	.btn { padding: .85rem 1.4rem; }
 }
 @media (max-width: 420px) { .grid { grid-template-columns: 1fr; } }
+
+/* Katalog: Einstieg über Bereiche */
+.bereich-tiles { padding-bottom: 0; }
+.bereich-tiles .page-title { font-size: clamp(1.5rem, 3vw, 2.2rem); margin-bottom: 1.4rem; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
+.tile { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--surface); text-decoration: none; color: #F2F1EC; }
+.tile-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.2, .6, .2, 1); }
+.tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14, 16, 18, 0) 45%, rgba(14, 16, 18, .82) 100%); }
+.tile:hover .tile-img { transform: scale(1.05); }
+.tile-label { position: absolute; left: 1.1rem; right: 1.1rem; bottom: 1rem; z-index: 2; display: flex; flex-direction: column; gap: .15rem; }
+.tile-label strong { font-weight: 400; font-size: 1.3rem; letter-spacing: .02em; }
+.tile-label small { font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(242, 241, 236, .75); }
+@media (max-width: 760px) {
+	.tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+	.tile-label strong { font-size: 1.1rem; }
+	.tile-label small { font-size: .72rem; }
+}

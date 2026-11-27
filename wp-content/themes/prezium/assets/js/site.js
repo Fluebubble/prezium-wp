@@ -70,3 +70,25 @@
 	document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { set(false); } });
 	window.addEventListener('resize', function () { if (window.innerWidth > 1024) { set(false); } });
 })();
+
+
+/* Projekte: Filter nach Bereich */
+(function () {
+	var chips = document.querySelectorAll('.pa-chip');
+	if (!chips.length) { return; }
+	var items = document.querySelectorAll('.pa-item');
+	var counter = document.querySelector('[data-count]');
+	chips.forEach(function (chip) {
+		chip.addEventListener('click', function () {
+			var f = chip.getAttribute('data-filter');
+			var n = 0;
+			chips.forEach(function (c) { c.classList.toggle('is-active', c === chip); });
+			items.forEach(function (it) {
+				var show = f === '*' || (it.getAttribute('data-areas') || '').split(' ').indexOf(f) !== -1;
+				it.hidden = !show;
+				if (show) { n++; }
+			});
+			if (counter) { counter.textContent = n + (n === 1 ? ' Projekt' : ' Projekte'); }
+		});
+	});
+})();

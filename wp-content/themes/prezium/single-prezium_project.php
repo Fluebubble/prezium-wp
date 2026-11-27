@@ -33,7 +33,7 @@ while ( have_posts() ) :
 			<?php the_post_thumbnail( 'full', array( 'sizes' => '100vw', 'fetchpriority' => 'high' ) ); ?>
 		<?php endif; ?>
 		<div class="pj-hero-in">
-			<a class="pj-back" href="<?php echo esc_url( home_url( '/#projekte' ) ); ?>">&larr; <?php esc_html_e( 'Alle Projekte', 'prezium' ); ?></a>
+			<a class="pj-back" href="<?php echo esc_url( get_post_type_archive_link( 'prezium_project' ) ); ?>">&larr; <?php esc_html_e( 'Alle Projekte', 'prezium' ); ?></a>
 			<p class="pj-eyebrow"><?php echo esc_html( get_the_excerpt() . ' · ' . sprintf( /* translators: %d: minutes */ __( '%d Min. Lesezeit', 'prezium' ), $mins ) ); ?></p>
 			<h1><?php echo esc_html( $title ); ?></h1>
 			<span class="pj-demo">DEMO</span>

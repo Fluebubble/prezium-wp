@@ -14,7 +14,7 @@ add_action( 'init', function () {
 			'add_new_item'  => __( 'Projekt hinzufügen', 'prezium' ),
 		),
 		'public'       => true,
-		'has_archive'  => false,
+		'has_archive'  => 'projekte',
 		'rewrite'      => array( 'slug' => 'projekte' ),
 		'menu_icon'    => 'dashicons-building',
 		'show_in_rest' => true,
@@ -33,9 +33,9 @@ add_action( 'init', function () {
 
 /** Rewrite-Regeln nach Theme-Update einmalig neu schreiben (neuer Post-Typ „Projekte“). */
 add_action( 'init', function () {
-	if ( get_option( 'prezium_rewrite_v' ) !== '3' ) {
+	if ( get_option( 'prezium_rewrite_v' ) !== '4' ) {
 		flush_rewrite_rules( false );
-		update_option( 'prezium_rewrite_v', '3' );
+		update_option( 'prezium_rewrite_v', '4' );
 	}
 }, 99 );
 
@@ -222,3 +222,62 @@ add_filter( 'the_content', function ( $content ) {
 function prezium_reading_time( $post_id ) {
 	return max( 1, (int) ceil( str_word_count( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ) ) / 200 ) );
 }
+
+
+/** Einmalig: Menüpunkt „Projekte“ nach „Marken“ ins Hauptmenü einfügen. */
+add_action( 'init', function () {
+	if ( get_option( 'prezium_menu_projekte' ) ) {
+		return;
+	}
+	$locations = get_nav_menu_locations();
+	if ( empty( $locations['primary'] ) ) {
+		return;
+	}
+	$menu  = (int) $locations['primary'];
+	$items = wp_get_nav_menu_items( $menu );
+	if ( ! $items ) {
+		return;
+	}
+	$url = get_post_type_archive_link( 'prezium_project' );
+	foreach ( $items as $it ) {
+		if ( untrailingslashit( $it->url ) === untrailingslashit( $url ) ) {
+			update_option( 'prezium_menu_projekte', 1 );
+			return;
+		}
+	}
+	$new_id = wp_update_nav_menu_item( $menu, 0, array(
+		'menu-item-title'  => 'Projekte',
+		'menu-item-url'    => $url,
+		'menu-item-status' => 'publish',
+		'menu-item-type'   => 'custom',
+	) );
+	if ( is_wp_error( $new_id ) ) {
+		return;
+	}
+	// Reihenfolge: neuer Punkt direkt hinter „Marken“ (sonst ans Ende).
+	$order = array();
+	$added = false;
+	foreach ( $items as $it ) {
+		$order[] = $it->ID;
+		if ( 'Marken' === $it->title ) {
+			$order[] = $new_id;
+			$added   = true;
+		}
+	}
+	if ( ! $added ) {
+		$order[] = $new_id;
+	}
+	foreach ( $order as $i => $id ) {
+		wp_update_post( array( 'ID' => $id, 'menu_order' => $i + 1 ) );
+	}
+	update_option( 'prezium_menu_projekte', 1 );
+}, 100 );
+
+/** Projekte-Übersicht: alle Projekte, in fester Reihenfolge (wie auf der Startseite). */
+add_action( 'pre_get_posts', function ( $q ) {
+	if ( ! is_admin() && $q->is_main_query() && $q->is_post_type_archive( 'prezium_project' ) ) {
+		$q->set( 'posts_per_page', -1 );
+		$q->set( 'orderby', 'ID' );
+		$q->set( 'order', 'ASC' );
+	}
+} );

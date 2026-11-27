@@ -68,7 +68,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 	wp_enqueue_style( 'prezium-style', get_stylesheet_uri(), array( 'prezium-fonts' ), wp_get_theme()->get( 'Version' ) );
 
-	if ( is_singular( 'prezium_project' ) ) {
+	if ( is_singular( 'prezium_project' ) || is_post_type_archive( 'prezium_project' ) ) {
 		wp_enqueue_style( 'prezium-project', get_template_directory_uri() . '/assets/css/project.css', array( 'prezium-style' ), wp_get_theme()->get( 'Version' ) );
 	}
 
