@@ -27,7 +27,7 @@
 				?>
 				<article class="card">
 					<a href="<?php the_permalink(); ?>">
-						<?php if ( prezium_is_test() ) : ?><span class="badge-test">TEST</span><?php endif; ?>
+						<?php prezium_badge(); ?>
 						<?php if ( has_post_thumbnail() ) : ?>
 							<?php the_post_thumbnail( 'large', array( 'class' => 'ph', 'loading' => 'lazy' ) ); ?>
 						<?php else : ?>

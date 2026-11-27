@@ -110,15 +110,19 @@ $catalog_url    = get_post_type_archive_link( 'prezium_product' );
 	<div class="project-grid">
 		<?php
 		$projects = array(
-			array( '08-projekt1', __( 'Villa mit Doppelraum', 'prezium' ), __( 'Parkett · Fenster · Licht', 'prezium' ) ),
-			array( '09-projekt2', __( 'Penthouse mit Stadtblick', 'prezium' ), __( 'Parkett · Möbel', 'prezium' ) ),
-			array( '10-projekt3', __( 'Haus im Morgennebel', 'prezium' ), __( 'Terrassendielen · Fenster', 'prezium' ) ),
-			array( '11-projekt4', __( 'Boutique-Hotel Lobby', 'prezium' ), __( 'Türen · Licht · Möbel', 'prezium' ) ),
+			array( '08-projekt1', __( 'Villa mit Doppelraum', 'prezium' ), __( 'Parkett · Fenster · Licht', 'prezium' ), 'villa-mit-doppelraum' ),
+			array( '09-projekt2', __( 'Penthouse mit Stadtblick', 'prezium' ), __( 'Parkett · Möbel', 'prezium' ), 'penthouse-mit-stadtblick' ),
+			array( '10-projekt3', __( 'Haus im Morgennebel', 'prezium' ), __( 'Terrassendielen · Fenster', 'prezium' ), 'haus-im-morgennebel' ),
+			array( '11-projekt4', __( 'Boutique-Hotel Lobby', 'prezium' ), __( 'Türen · Licht · Möbel', 'prezium' ), 'boutique-hotel-lobby' ),
 		);
 		foreach ( $projects as $p ) :
+			$pp   = get_posts( array( 'post_type' => 'prezium_project', 'name' => $p[3], 'posts_per_page' => 1, 'fields' => 'ids' ) );
+			$link = $pp ? get_permalink( $pp[0] ) : '';
 			?>
 			<figure class="project rv">
+				<?php if ( $link ) : ?><a href="<?php echo esc_url( $link ); ?>" aria-label="<?php echo esc_attr( $p[1] ); ?>"><?php endif; ?>
 				<?php prezium_home_img( $p[0], $p[1], 'project-img' ); ?>
+				<?php if ( $link ) : ?></a><?php endif; ?>
 				<span class="badge-demo"><?php esc_html_e( 'Demo', 'prezium' ); ?></span>
 				<figcaption>
 					<strong><?php echo esc_html( $p[1] ); ?></strong>
@@ -145,7 +149,7 @@ $catalog_url    = get_post_type_archive_link( 'prezium_product' );
 			?>
 			<article class="card rv">
 				<a href="<?php the_permalink(); ?>">
-					<?php if ( prezium_is_test() ) : ?><span class="badge-test">TEST</span><?php endif; ?>
+					<?php prezium_badge(); ?>
 					<?php if ( has_post_thumbnail() ) : ?>
 						<?php the_post_thumbnail( 'large', array( 'class' => 'ph', 'loading' => 'lazy' ) ); ?>
 					<?php else : ?>

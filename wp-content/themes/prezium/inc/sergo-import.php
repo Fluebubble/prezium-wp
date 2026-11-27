@@ -1,7 +1,7 @@
 <?php
 /**
  * Import einer Produktauswahl aus dem Schwesterkatalog (Admin: Produkte → Sergo-Import).
- * Läuft in Paketen, lädt Bilder serverseitig, legt Produkte als TEST an (Upsert nach Artikelnummer).
+ * Läuft in Paketen, lädt Bilder serverseitig, legt Produkte mit Kennzeichnung SERGO an (Upsert nach Artikelnummer).
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -140,7 +140,8 @@ function prezium_sergo_import_one( $slug, $bereich ) {
 	update_post_meta( $id, '_prez_sku', $sku );
 	update_post_meta( $id, '_prez_material', $material );
 	update_post_meta( $id, '_prez_finish', $finish ? $finish : $coll );
-	update_post_meta( $id, '_prez_is_test', 1 );
+	update_post_meta( $id, '_prez_label', 'SERGO' );
+	delete_post_meta( $id, '_prez_is_test' );
 
 	if ( ! has_post_thumbnail( $id ) && ! empty( $item['featured_media'] ) ) {
 		$media = json_decode( prezium_sergo_get( PREZIUM_SERGO_BASE . '/wp-json/wp/v2/media/' . (int) $item['featured_media'] . '?_fields=source_url' ), true );

@@ -12,6 +12,7 @@ require_once get_template_directory() . '/inc/catalog-query.php';
 require_once get_template_directory() . '/inc/inquiries.php';
 require_once get_template_directory() . '/inc/demo-import.php';
 require_once get_template_directory() . '/inc/sergo-import.php';
+require_once get_template_directory() . '/inc/projects.php';
 
 /**
  * Wer darf Dokumente herunterladen? Vorerst jeder angemeldete Nutzer.
@@ -21,9 +22,30 @@ function prezium_user_can_download() {
 	return is_user_logged_in();
 }
 
-/** Testprodukte (Demo-Daten) tragen die Marke "Test". */
+/** Kennzeichnung eines Produkts: '', 'TEST', 'SERGO' oder 'DEMOPROJECT'. */
+function prezium_label( $post_id = null ) {
+	$id    = $post_id ? $post_id : get_the_ID();
+	$label = get_post_meta( $id, '_prez_label', true );
+	if ( ! $label && get_post_meta( $id, '_prez_is_test', true ) ) {
+		$label = 'TEST';
+	}
+	return $label;
+}
+
 function prezium_is_test( $post_id = null ) {
-	return (bool) get_post_meta( $post_id ? $post_id : get_the_ID(), '_prez_is_test', true );
+	return (bool) prezium_label( $post_id );
+}
+
+/** Gibt das Etikett (Badge) aus; $inline für den Titel auf der Produktseite. */
+function prezium_badge( $inline = false ) {
+	// Vor dem Livegang: in wp-config.php  define( 'PREZIUM_HIDE_BADGES', true );  blendet alle Etiketten aus.
+	if ( defined( 'PREZIUM_HIDE_BADGES' ) && PREZIUM_HIDE_BADGES ) {
+		return;
+	}
+	$label = prezium_label();
+	if ( $label ) {
+		printf( '<span class="badge-test badge-%1$s%2$s">%3$s</span>', esc_attr( strtolower( $label ) ), $inline ? ' badge-inline' : '', esc_html( $label ) );
+	}
 }
 
 add_action( 'after_setup_theme', function () {
