@@ -50,3 +50,23 @@
 		if (e.target === dialog) { dialog.close(); }
 	});
 })();
+
+
+/* Mobiles Menü */
+(function () {
+	var btn = document.querySelector('.nav-toggle');
+	var menu = document.getElementById('site-menu');
+	if (!btn || !menu) { return; }
+
+	function set(open) {
+		menu.classList.toggle('is-open', open);
+		document.body.classList.toggle('menu-open', open);
+		btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+		btn.setAttribute('aria-label', btn.getAttribute(open ? 'data-label-close' : 'data-label-open'));
+	}
+
+	btn.addEventListener('click', function () { set(btn.getAttribute('aria-expanded') !== 'true'); });
+	menu.addEventListener('click', function (e) { if (e.target.closest('a')) { set(false); } });
+	document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { set(false); } });
+	window.addEventListener('resize', function () { if (window.innerWidth > 1024) { set(false); } });
+})();

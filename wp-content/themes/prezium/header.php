@@ -9,17 +9,22 @@
 <?php wp_body_open(); ?>
 <header class="site-header">
 	<a class="site-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">PREZIUM</a>
-	<nav class="site-nav" aria-label="<?php esc_attr_e( 'Hauptmenü', 'prezium' ); ?>">
-		<?php
-		wp_nav_menu( array(
-			'theme_location' => 'primary',
-			'container'      => false,
-			'fallback_cb'    => false,
-		) );
-		?>
-	</nav>
-	<a class="btn ghost login-link" href="<?php echo esc_url( is_user_logged_in() ? wp_logout_url( home_url( '/' ) ) : wp_login_url( home_url( '/' ) ) ); ?>">
-		<?php echo is_user_logged_in() ? esc_html__( 'Abmelden', 'prezium' ) : esc_html__( 'Anmelden', 'prezium' ); ?>
-	</a>
+	<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="<?php esc_attr_e( 'Menü öffnen', 'prezium' ); ?>" data-label-open="<?php esc_attr_e( 'Menü öffnen', 'prezium' ); ?>" data-label-close="<?php esc_attr_e( 'Menü schließen', 'prezium' ); ?>">
+		<span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+	</button>
+	<div class="site-menu" id="site-menu">
+		<nav class="site-nav" aria-label="<?php esc_attr_e( 'Hauptmenü', 'prezium' ); ?>">
+			<?php
+			wp_nav_menu( array(
+				'theme_location' => 'primary',
+				'container'      => false,
+				'fallback_cb'    => false,
+			) );
+			?>
+		</nav>
+		<a class="btn ghost login-link" href="<?php echo esc_url( is_user_logged_in() ? wp_logout_url( home_url( '/' ) ) : wp_login_url( home_url( '/' ) ) ); ?>">
+			<?php echo is_user_logged_in() ? esc_html__( 'Abmelden', 'prezium' ) : esc_html__( 'Anmelden', 'prezium' ); ?>
+		</a>
+	</div>
 </header>
 <main>
