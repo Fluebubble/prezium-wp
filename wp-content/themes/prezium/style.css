@@ -179,5 +179,8 @@ dialog .note { margin-bottom: 1rem; }
 }
 
 /* Produktseite: Rückweg zu Katalog und Projekt */
-.back-links { display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; margin-bottom: 1.5rem; }
-.back-links .back-project { color: var(--ink); border-bottom: 1px solid var(--accent); text-decoration: none; }
+.back-links { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.4rem; margin-bottom: 1.8rem; font-size: 1rem; }
+.back-links a { text-decoration: none; color: var(--mute); }
+.back-links a:hover { color: var(--ink); }
+.back-links .back-project { color: var(--ink); border: 1px solid var(--accent); padding: .5rem 1rem; }
+.back-links .back-project:hover { background: var(--accent); color: #14171A; }

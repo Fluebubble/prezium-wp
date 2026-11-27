@@ -143,3 +143,24 @@ add_action( 'after_switch_theme', function () {
 	}
 	flush_rewrite_rules();
 } );
+
+
+/**
+ * LiteSpeed-Seitencache nach einem Deployment leeren: Signatur aus den Änderungszeiten der Theme-Dateien.
+ */
+add_action( 'init', function () {
+	if ( is_admin() || ! has_action( 'litespeed_purge_all' ) && ! defined( 'LSCWP_V' ) ) {
+		return;
+	}
+	$dir  = get_template_directory();
+	$sig  = '';
+	$list = array_merge( glob( $dir . '/*.php' ) ?: array(), glob( $dir . '/inc/*.php' ) ?: array(), glob( $dir . '/template-parts/*.php' ) ?: array(), glob( $dir . '/assets/css/*.css' ) ?: array(), glob( $dir . '/assets/js/*.js' ) ?: array(), array( $dir . '/style.css' ) );
+	foreach ( $list as $file ) {
+		$sig .= filemtime( $file ) . ',';
+	}
+	$sig = md5( $sig );
+	if ( get_option( 'prezium_deploy_sig' ) !== $sig ) {
+		update_option( 'prezium_deploy_sig', $sig, false );
+		do_action( 'litespeed_purge_all' );
+	}
+}, 5 );

@@ -183,7 +183,7 @@ body.single-prezium_project .site-header, body.post-type-archive-prezium_project
 	.pa-item { gap: 5%; }
 	.pa-body { flex-basis: 42%; }
 }
-@media (max-width: 800px) {
+@media (max-width: 900px) {
 	.pa-head { padding-top: 64px; padding-bottom: 32px; }
 	.pa-head, .pa-list { padding-left: 5%; padding-right: 5%; }
 	.pa-title { margin-top: 16px; gap: 18px; }
@@ -204,4 +204,13 @@ body.single-prezium_project .site-header, body.post-type-archive-prezium_project
 	.pa-facts dd { margin: 0; text-align: right; }
 	.pa-body .pj-link { margin-top: 22px; }
 	.pa-cta { padding: 56px 5%; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+	.pa-img img { aspect-ratio: 16 / 10; }
+	.pa-item, .pa-item:nth-child(even) { gap: 26px; }
+	.pa-facts { flex-direction: row; }
+	.pa-facts > div, .pa-facts > div:first-child { display: block; padding: 16px 0 16px 18px; border-left: 1px solid var(--line); border-bottom: 0; }
+	.pa-facts > div:first-child { padding-left: 0; border-left: 0; }
+	.pa-facts dd { text-align: left; margin-top: 6px; }
+	.pa-facts { border-bottom: 1px solid var(--line); }
 }
