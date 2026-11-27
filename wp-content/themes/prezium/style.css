@@ -192,3 +192,11 @@ dialog .note { margin-bottom: 1rem; }
 .back-links a:hover { color: var(--ink); }
 .back-links .back-project { color: var(--ink); border: 1px solid var(--accent); padding: .5rem 1rem; }
 .back-links .back-project:hover { background: var(--accent); color: #14171A; }
+
+/* Einzelne Marke: Kopfbereich */
+.brand-head { padding-bottom: 0; }
+.brand-head-mark { margin: 1rem 0 1.2rem; }
+.brand-head-mark .bm-word { display: block; text-align: left; font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: clamp(2.4rem, 6vw, 4.5rem); letter-spacing: .12em; text-transform: uppercase; line-height: 1.05; }
+.brand-head-mark .bm-logo { max-height: 72px; width: auto; max-width: 100%; }
+.brand-head-mark .bm-logo.is-invert { filter: brightness(0) invert(1); }
+.brand-head .brand-intro { max-width: 60ch; margin-bottom: 1rem; color: var(--mute); }

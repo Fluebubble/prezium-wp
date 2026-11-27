@@ -13,6 +13,7 @@ require_once get_template_directory() . '/inc/inquiries.php';
 require_once get_template_directory() . '/inc/demo-import.php';
 require_once get_template_directory() . '/inc/sergo-import.php';
 require_once get_template_directory() . '/inc/projects.php';
+require_once get_template_directory() . '/inc/brands.php';
 
 /**
  * Wer darf Dokumente herunterladen? Vorerst jeder angemeldete Nutzer.
@@ -75,6 +76,10 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	if ( is_singular( 'prezium_project' ) || is_post_type_archive( 'prezium_project' ) ) {
 		wp_enqueue_style( 'prezium-project', get_template_directory_uri() . '/assets/css/project.css', array( 'prezium-style' ), $ver( 'assets/css/project.css' ) );
+	}
+
+	if ( is_page( 'marken' ) ) {
+		wp_enqueue_style( 'prezium-marken', get_template_directory_uri() . '/assets/css/marken.css', array( 'prezium-style' ), $ver( 'assets/css/marken.css' ) );
 	}
 
 	if ( is_front_page() ) {

@@ -92,3 +92,24 @@
 		});
 	});
 })();
+
+/* Marken: Filter nach Bereich */
+(function () {
+	var chips = document.querySelectorAll('.bm-chip');
+	if (!chips.length) { return; }
+	var cells = document.querySelectorAll('.bm-cell');
+	var counter = document.querySelector('[data-bm-count]');
+	chips.forEach(function (chip) {
+		chip.addEventListener('click', function () {
+			var f = chip.getAttribute('data-filter');
+			var n = 0;
+			chips.forEach(function (c) { c.classList.toggle('is-active', c === chip); });
+			cells.forEach(function (cell) {
+				var show = f === '*' || (cell.getAttribute('data-areas') || '').split(' ').indexOf(f) !== -1;
+				cell.hidden = !show;
+				if (show) { n++; }
+			});
+			if (counter) { counter.textContent = n + (n === 1 ? ' Marke' : ' Marken'); }
+		});
+	});
+})();
