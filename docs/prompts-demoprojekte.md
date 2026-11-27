@@ -52,7 +52,7 @@ A tall double-leaf entrance door in dark walnut with a bronze accent strip and l
 
 **kronleuchter-cascata.jpg** (Kronleuchter Cascata)
 
-A cascading chandelier of hand-blown crystal drops on a polished brass frame, black background removed to light grey. Premium catalogue product photograph, soft diffused studio light, light warm-grey seamless background, subtle floor shadow, square 1:1, centered, high detail, realistic, no people, no text, no logo, no watermark.
+A cascading chandelier of hand-blown crystal drops on a polished brass frame. Premium catalogue product photograph, soft diffused studio light, light warm-grey seamless background, subtle floor shadow, square 1:1, centered, high detail, realistic, no people, no text, no logo, no watermark.
 
 **wandleuchte-arco.jpg** (Wandleuchte Arco)
 

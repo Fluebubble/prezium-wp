@@ -31,6 +31,14 @@ add_action( 'init', function () {
 	) );
 } );
 
+/** Rewrite-Regeln nach Theme-Update einmalig neu schreiben (neuer Post-Typ „Projekte“). */
+add_action( 'init', function () {
+	if ( get_option( 'prezium_rewrite_v' ) !== '3' ) {
+		flush_rewrite_rules( false );
+		update_option( 'prezium_rewrite_v', '3' );
+	}
+}, 99 );
+
 /** Einmalig: bereits importierte Sergo-Produkte (Artikelnummer SG-…) auf SERGO umstellen. */
 add_action( 'admin_init', function () {
 	if ( get_option( 'prezium_mig_label1' ) ) {
