@@ -11,6 +11,7 @@ require_once get_template_directory() . '/inc/product-fields.php';
 require_once get_template_directory() . '/inc/catalog-query.php';
 require_once get_template_directory() . '/inc/inquiries.php';
 require_once get_template_directory() . '/inc/demo-import.php';
+require_once get_template_directory() . '/inc/sergo-import.php';
 
 /**
  * Wer darf Dokumente herunterladen? Vorerst jeder angemeldete Nutzer.
