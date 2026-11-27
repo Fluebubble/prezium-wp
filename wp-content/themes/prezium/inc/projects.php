@@ -114,6 +114,8 @@ function prezium_seed_projects() {
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 	require_once get_template_directory() . '/inc/projects-data.php';
+	require_once get_template_directory() . '/inc/projects-articles.php';
+	$articles = prezium_demo_project_articles();
 
 	foreach ( prezium_demo_project_brands() as $name => $desc ) {
 		if ( ! term_exists( $name, 'prezium_marke' ) ) {
@@ -122,7 +124,7 @@ function prezium_seed_projects() {
 	}
 	foreach ( prezium_demo_projects() as $slug => $pr ) {
 		$found = get_posts( array( 'post_type' => 'prezium_project', 'name' => $slug, 'post_status' => 'any', 'posts_per_page' => 1, 'fields' => 'ids' ) );
-		$args  = array( 'post_type' => 'prezium_project', 'post_status' => 'publish', 'post_name' => $slug, 'post_title' => $pr['title'], 'post_excerpt' => $pr['excerpt'], 'post_content' => $pr['content'] );
+		$args  = array( 'post_type' => 'prezium_project', 'post_status' => 'publish', 'post_name' => $slug, 'post_title' => $pr['title'], 'post_excerpt' => $pr['excerpt'], 'post_content' => isset( $articles[ $slug ] ) ? $articles[ $slug ]['html'] : $pr['content'] );
 		if ( $found ) {
 			$args['ID'] = $found[0];
 			$pid        = wp_update_post( $args );
@@ -138,6 +140,26 @@ function prezium_seed_projects() {
 			if ( $att ) {
 				set_post_thumbnail( $pid, $att );
 			}
+		}
+		if ( isset( $articles[ $slug ] ) ) {
+			update_post_meta( $pid, '_prez_quote', $articles[ $slug ]['quote'] );
+			// Galerie: vorhandene Bilder assets/demo-projects/projects/<slug>-N.webp|jpg|png einbinden.
+			$gallery = (array) get_post_meta( $pid, '_prez_gallery', true );
+			foreach ( $articles[ $slug ]['gallery'] as $i => $caption ) {
+				$n = $i + 1;
+				if ( ! empty( $gallery[ $n ] ) && get_post( $gallery[ $n ] ) ) {
+					continue;
+				}
+				foreach ( array( 'webp', 'jpg', 'png' ) as $ext ) {
+					$att = prezium_theme_attach( 'assets/demo-projects/projects/' . $slug . '-' . $n . '.' . $ext, $pid );
+					if ( $att ) {
+						wp_update_post( array( 'ID' => $att, 'post_excerpt' => $caption ) );
+						$gallery[ $n ] = $att;
+						break;
+					}
+				}
+			}
+			update_post_meta( $pid, '_prez_gallery', array_filter( $gallery ) );
 		}
 		if ( ! term_exists( $slug, 'prezium_projekt' ) ) {
 			wp_insert_term( $pr['title'], 'prezium_projekt', array( 'slug' => $slug ) );
@@ -178,4 +200,25 @@ function prezium_seed_projects() {
 			}
 		}
 	}
+}
+
+/** Bildplatzhalter <!--prez-img:N--> im Projekttext durch Galeriebilder ersetzen. */
+add_filter( 'the_content', function ( $content ) {
+	if ( ! is_singular( 'prezium_project' ) || false === strpos( $content, 'prez-img' ) ) {
+		return $content;
+	}
+	$gallery = (array) get_post_meta( get_the_ID(), '_prez_gallery', true );
+	return preg_replace_callback( '/(?:<p>)?<!--prez-img:(\d+)-->(?:<\/p>)?/', function ( $m ) use ( $gallery ) {
+		$id = isset( $gallery[ (int) $m[1] ] ) ? (int) $gallery[ (int) $m[1] ] : 0;
+		if ( ! $id ) {
+			return '';
+		}
+		$cap = wp_get_attachment_caption( $id );
+		return '<figure class="proj-fig">' . wp_get_attachment_image( $id, 'full', false, array( 'loading' => 'lazy' ) ) . ( $cap ? '<figcaption>' . esc_html( $cap ) . '</figcaption>' : '' ) . '</figure>';
+	}, $content );
+}, 12 );
+
+/** Lesedauer in Minuten. */
+function prezium_reading_time( $post_id ) {
+	return max( 1, (int) ceil( str_word_count( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ) ) / 200 ) );
 }
