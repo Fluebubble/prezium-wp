@@ -1,7 +1,7 @@
 /*
 Theme Name: Prezium
 Description: Showroom-Katalog für Prezium GmbH
-Version: 0.4.0
+Version: 0.5.0
 Text Domain: prezium
 */
 
@@ -119,21 +119,4 @@ dialog .note { margin-bottom: 1rem; }
 
 .badge-sergo { background: #8a6a43; }
 .badge-demoproject { background: #4a5560; }
-.proj-hero { margin: 0 0 2rem; }
-.proj-hero img { width: 100%; height: auto; max-height: 70vh; object-fit: cover; display: block; }
 .project a { display: block; }
-.proj-head { margin: 0 0 1.5rem; }
-.proj-body { display: grid; grid-template-columns: minmax(0, 1fr) 20rem; gap: 4rem; align-items: start; margin-bottom: 4rem; }
-.proj-side { position: sticky; top: 6rem; }
-.proj-text { max-width: 44rem; }
-.proj-text .lead { font-size: 1.35rem; line-height: 1.55; font-family: "Cormorant Garamond", serif; color: var(--ink); }
-.proj-text h2 { margin: 2.6rem 0 .8rem; font-size: 1.6rem; font-weight: 400; }
-.proj-text p { margin: 0 0 1.1rem; line-height: 1.8; }
-.proj-text blockquote { margin: 2.4rem 0; padding: 0 0 0 1.5rem; border-left: 2px solid var(--accent, #C09B6E); }
-.proj-text blockquote p { font-family: "Cormorant Garamond", serif; font-size: 1.7rem; line-height: 1.4; margin: 0 0 .6rem; }
-.proj-text blockquote cite { font-size: .85rem; letter-spacing: .08em; opacity: .7; font-style: normal; }
-.proj-fig { margin: 2.4rem 0; }
-.proj-fig img { width: 100%; height: auto; display: block; }
-.proj-fig figcaption { margin-top: .6rem; font-size: .85rem; opacity: .65; }
-.proj-next { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.12); }
-@media (max-width: 900px) { .proj-body { grid-template-columns: 1fr; gap: 2rem; } .proj-side { position: static; } }

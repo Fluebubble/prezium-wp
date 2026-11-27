@@ -68,6 +68,10 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 	wp_enqueue_style( 'prezium-style', get_stylesheet_uri(), array( 'prezium-fonts' ), wp_get_theme()->get( 'Version' ) );
 
+	if ( is_singular( 'prezium_project' ) ) {
+		wp_enqueue_style( 'prezium-project', get_template_directory_uri() . '/assets/css/project.css', array( 'prezium-style' ), wp_get_theme()->get( 'Version' ) );
+	}
+
 	if ( is_front_page() ) {
 		wp_enqueue_style( 'prezium-home', get_template_directory_uri() . '/assets/css/home.css', array( 'prezium-style' ), wp_get_theme()->get( 'Version' ) );
 		wp_enqueue_script( 'prezium-home', get_template_directory_uri() . '/assets/js/home.js', array(), wp_get_theme()->get( 'Version' ), true );
