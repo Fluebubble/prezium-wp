@@ -29,6 +29,14 @@ Text Domain: prezium
   }
 }
 
+/* Scrollbar: Platz immer reservieren, damit der Inhalt beim Seitenwechsel nicht springt */
+html { scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: #8b9096 transparent; scroll-behavior: smooth; }
+html:has(body.home, body.single-prezium_project, body.post-type-archive-prezium_project) { color-scheme: dark; scrollbar-color: #4b5259 transparent; }
+@media (prefers-color-scheme: dark) { html { scrollbar-color: #4b5259 transparent; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+html::-webkit-scrollbar { width: 10px; }
+html::-webkit-scrollbar-thumb { background: #8b9096; border-radius: 6px; border: 2px solid transparent; background-clip: content-box; }
+
 * { box-sizing: border-box; margin: 0; }
 body { background: var(--bg); color: var(--ink); font: 300 17px/1.6 "Jost", system-ui, sans-serif; }
 a { color: inherit; }
