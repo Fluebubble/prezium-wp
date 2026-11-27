@@ -177,3 +177,7 @@ dialog .note { margin-bottom: 1rem; }
 	.tile-label strong { font-size: 1.1rem; }
 	.tile-label small { font-size: .72rem; }
 }
+
+/* Produktseite: Rückweg zu Katalog und Projekt */
+.back-links { display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; margin-bottom: 1.5rem; }
+.back-links .back-project { color: var(--ink); border-bottom: 1px solid var(--accent); text-decoration: none; }

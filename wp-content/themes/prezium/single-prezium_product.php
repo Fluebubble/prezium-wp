@@ -25,8 +25,27 @@ while ( have_posts() ) :
 		}
 	}
 	?>
+<?php
+	// Rückweg zum Projekt: entweder über ?projekt=ID (Klick aus dem Projekt) oder über die Projekt-Verknüpfung.
+	// phpcs:ignore WordPress.Security.NonceVerification
+	$from = isset( $_GET['projekt'] ) ? absint( $_GET['projekt'] ) : 0;
+	$proj = ( $from && 'prezium_project' === get_post_type( $from ) && 'publish' === get_post_status( $from ) ) ? get_post( $from ) : null;
+	$via  = (bool) $proj;
+	if ( ! $proj ) {
+		$pterms = get_the_terms( $id, 'prezium_projekt' );
+		if ( $pterms && ! is_wp_error( $pterms ) ) {
+			$found = get_posts( array( 'post_type' => 'prezium_project', 'name' => $pterms[0]->slug, 'posts_per_page' => 1 ) );
+			$proj  = $found ? $found[0] : null;
+		}
+	}
+	?>
 <section class="section">
-	<p class="note"><a href="<?php echo esc_url( get_post_type_archive_link( 'prezium_product' ) ); ?>">&larr; <?php esc_html_e( 'Zurück zum Katalog', 'prezium' ); ?></a></p>
+	<p class="note back-links">
+		<a href="<?php echo esc_url( get_post_type_archive_link( 'prezium_product' ) ); ?>">&larr; <?php esc_html_e( 'Zurück zum Katalog', 'prezium' ); ?></a>
+		<?php if ( $proj ) : ?>
+			<a class="back-project" href="<?php echo esc_url( get_permalink( $proj ) . '#produkt-' . $id ); ?>">&larr; <?php echo esc_html( sprintf( /* translators: %s: project title */ $via ? __( 'Zurück zum Projekt: %s', 'prezium' ) : __( 'Verwendet im Projekt: %s', 'prezium' ), get_the_title( $proj ) ) ); ?></a>
+		<?php endif; ?>
+	</p>
 
 	<div class="prod">
 		<div class="prod-media">

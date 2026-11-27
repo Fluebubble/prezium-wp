@@ -77,8 +77,9 @@ while ( have_posts() ) :
 					$lead  = trim( strtok( wp_strip_all_tags( get_the_content() ), "\n" ) );
 					$chips = array_filter( array( get_post_meta( $ppid, '_prez_material', true ), get_post_meta( $ppid, '_prez_dimensions', true ), get_post_meta( $ppid, '_prez_finish', true ) ) );
 					?>
-					<div class="pj-row">
-						<a class="pj-row-img" href="<?php the_permalink(); ?>">
+					<?php $plink = add_query_arg( 'projekt', $pid, get_permalink() ); ?>
+					<div class="pj-row" id="produkt-<?php echo (int) $ppid; ?>">
+						<a class="pj-row-img" href="<?php echo esc_url( $plink ); ?>">
 							<?php prezium_badge(); ?>
 							<?php if ( has_post_thumbnail() ) : ?>
 								<?php the_post_thumbnail( 'large', array( 'loading' => 'lazy' ) ); ?>
@@ -88,12 +89,12 @@ while ( have_posts() ) :
 						</a>
 						<div class="pj-row-body">
 							<div class="pj-row-meta"><span><?php echo esc_html( sprintf( '%02d', $n ) ); ?></span><?php if ( $bt ) : ?><a href="<?php echo esc_url( get_term_link( $bt ) ); ?>"><?php echo esc_html( sprintf( /* translators: %s: Bereich */ __( '%s im Katalog', 'prezium' ), $bt->name ) ); ?></a><?php endif; ?></div>
-							<h3><?php the_title(); ?></h3>
+							<h3><a href="<?php echo esc_url( $plink ); ?>"><?php the_title(); ?></a></h3>
 							<?php if ( $marke ) : ?><div class="pj-row-brand"><?php echo esc_html( $marke ); ?></div><?php endif; ?>
 							<?php if ( $lead ) : ?><p><?php echo esc_html( $lead ); ?></p><?php endif; ?>
 							<?php if ( $chips ) : ?><div class="pj-chips"><?php foreach ( $chips as $c ) : ?><span><?php echo esc_html( $c ); ?></span><?php endforeach; ?></div><?php endif; ?>
 						</div>
-						<div class="pj-row-link"><a class="pj-link" href="<?php the_permalink(); ?>"><?php esc_html_e( 'Produkt ansehen', 'prezium' ); ?> &rarr;</a></div>
+						<div class="pj-row-link"><a class="pj-link" href="<?php echo esc_url( $plink ); ?>"><?php esc_html_e( 'Produkt ansehen', 'prezium' ); ?> &rarr;</a></div>
 					</div>
 				<?php endwhile; wp_reset_postdata(); ?>
 			</div>
